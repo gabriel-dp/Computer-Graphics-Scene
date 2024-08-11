@@ -1,4 +1,4 @@
-#include "../include/cadeira.h"
+#include "../include/objeto_cadeira.h"
 
 #include <GL/glut.h>
 

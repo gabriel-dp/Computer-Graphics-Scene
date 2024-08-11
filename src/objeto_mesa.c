@@ -1,4 +1,4 @@
-#include "../include/mesa.h"
+#include "../include/objeto_mesa.h"
 
 #include <GL/glut.h>
 

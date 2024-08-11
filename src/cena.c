@@ -2,16 +2,20 @@
 
 #include <GL/glut.h>
 #include <math.h>
+#include <stdio.h>
 
-#include "../include/cadeira.h"
-#include "../include/mesa.h"
+#include "../include/objeto_cadeira.h"
+#include "../include/objeto_mesa.h"
+
+#define MAX_ANGLE_RADIANS 6.1
 
 float angle = 0.0;          // Ângulo de rotacao da câmera
 float cameraHeight = 10.0;  // Altura inicial da câmera
 float zoom = 45.0;          // Campo de visão inicial (zoom)
 
 void init(void) {
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(0.0, 0.0, 0.0, 0.0);  // Cor de fundo
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_NORMALIZE);
@@ -22,7 +26,7 @@ void init(void) {
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 1.0, 1.0);  // Cor das linhas
     glLoadIdentity();
 
     // Define a posicao da câmera com rotacao
@@ -54,37 +58,29 @@ void reshape(int w, int h) {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(10.0 * cos(angle), cameraHeight, 10.0 * sin(angle),  // Posicao da camera
-              0.0, 0.0, 0.0,                                       // Ponto central da visão
-              0.0, 1.0, 0.0);                                      // Vetor Up
 }
 
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'a':  // Gira a camera para a esquerda
-            angle -= 0.1;
-            glutPostRedisplay();
+            angle = ((angle <= 0) ? MAX_ANGLE_RADIANS : angle - 0.1);
             break;
         case 'd':  // Gira a camera para a direita
-            angle += 0.1;
-            glutPostRedisplay();
+            angle = ((angle >= MAX_ANGLE_RADIANS) ? 0 : angle + 0.1);
             break;
         case 'w':  // Sobe a camera
             cameraHeight += 0.5;
-            glutPostRedisplay();
             break;
         case 's':  // Desce a camera
             cameraHeight -= 0.5;
-            glutPostRedisplay();
             break;
         case 'z':  // Zoom in
             zoom = fmax(zoom - 5.0, 5.0);
-            glutPostRedisplay();
             break;
         case 'x':  // Zoom out
             zoom = fmin(zoom + 5.0, 175.0);
-            glutPostRedisplay();
             break;
     }
+    glutPostRedisplay();
     glutReshapeWindow(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
