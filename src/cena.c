@@ -5,9 +5,9 @@
 #include <stdio.h>
 
 #include "../include/objeto_cadeira.h"
-#include "../include/objeto_mesa.h"
 #include "../include/objeto_chao.h"
-//#include "../include/objeto_vaso.h"
+#include "../include/objeto_mesa.h"
+#include "../include/objeto_taca.h"
 
 #define MAX_ANGLE_RADIANS 6.1
 
@@ -25,6 +25,7 @@ void init(void) {
     initMesa();
     initCadeira();
     initChao();
+    initTaca();
 }
 
 void display(void) {
@@ -55,6 +56,11 @@ void display(void) {
     glCallList(CHAO);
     glPopMatrix();
 
+    // Desenha a TACA
+    glPushMatrix();
+    glTranslatef(0, 0.75, 0);
+    glCallList(TACA);
+    glPopMatrix();
 
     glutSwapBuffers();
 }
