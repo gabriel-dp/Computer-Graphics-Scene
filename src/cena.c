@@ -22,6 +22,7 @@ void init(void) {
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_NORMALIZE);
 
+    // Inicia todos os objetos
     initMesa();
     initCadeira();
     initChao();
