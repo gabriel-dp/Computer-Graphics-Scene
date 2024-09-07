@@ -15,23 +15,6 @@ float angle = 0.0;          // Ângulo de rotacao da câmera
 float cameraHeight = 10.0;  // Altura inicial da câmera
 float zoom = 45.0;          // Campo de visão inicial (zoom)
 
-GLint especMaterial;
-
-void light(void) {
-    especMaterial = 100;
-
-    GLfloat luzAmbiente[4] = {0.5, 0.5, 0.5, 1};
-    GLfloat luzDifusa[4] = {0.4, 0.4, 0.4, 1};  // "cor"
-    GLfloat luzEspecular[4] = {1, 1, 1, 1};     // "brilho"
-    GLfloat posicaoLuz[4] = {0, 12, 0, 0.5};
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-}
-
 void init(void) {
     glClearColor(0.0, 0.0, 0.0, 0.0);  // Cor de fundo
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -43,23 +26,34 @@ void init(void) {
     initTaca();
 }
 
+void light(void) {
+    GLfloat luzAmbiente[4] = {0.5, 0.5, 0.5, 1};
+    GLfloat luzDifusa[4] = {0.4, 0.4, 0.4, 1};
+    GLfloat luzEspecular[4] = {1, 1, 1, 1};
+    GLfloat posicaoLuz[4] = {0, 12, 0, 0.5};
+
+    // Inicia todas as propriedades de luz
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
+    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
+}
+
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Habilita a coloração dos materiais da cena
+    // Cor dos materiais
     glEnable(GL_COLOR_MATERIAL);
-    // Habilita o uso de iluminação
-    glEnable(GL_LIGHTING);
-    // Habilita a luz de número 0
-    glEnable(GL_LIGHT0);
-    // Habilita o depth-buffering
-    glEnable(GL_DEPTH_TEST);
-    // Habilita o modelo de colorização de Gouraud
-    glShadeModel(GL_SMOOTH);
 
-    // glEnable(GL_DEPTH_TEST);
-    glEnable(GL_DEPTH_TEST);
+    // Iluminacao
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     light();
+
+    // Profundidade
+    glEnable(GL_DEPTH_TEST);
+    glShadeModel(GL_SMOOTH);  // Smooth = Gouraud
 
     glColor3f(1.0, 1.0, 1.0);  // Cor das linhas
     glLoadIdentity();
@@ -76,20 +70,23 @@ void display(void) {
 
     // Desenha a CADEIRA
     glPushMatrix();
-    glTranslatef(0.0, -2.5, -3.7);  // Posiciona a cadeira ao lado da mesa
-    glRotatef(45.0, 0.0, 1.0, 0.0);
+    glTranslatef(0.0, -2.5, -3.7);   // Ao lado da mesa
+    glRotatef(45.0, 0.0, 1.0, 0.0);  // Girada
     glCallList(CADEIRA);
     glPopMatrix();
 
     // Desenha o CHAO
     glPushMatrix();
-    glTranslatef(0.0, 0.0, 0.0);
+    glTranslatef(0.0, 0.0, 0.0);  // Centro da cena
     glCallList(CHAO);
     glPopMatrix();
 
     // Desenha a TACA
     glPushMatrix();
-    glTranslatef(0, 0.75, 0);
+    glTranslatef(0, 0.75, 0);  // Acima da mesa
+    glRotatef(71, 1, 0, 0);    // Derrubada
+    glRotatef(55, 0, 0, 1);    // Inclinada
+    glTranslatef(-1, 0, 0);    // Perto da cadeira
     glCallList(TACA);
     glPopMatrix();
 

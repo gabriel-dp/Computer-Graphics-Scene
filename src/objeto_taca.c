@@ -5,10 +5,7 @@
 void initTaca(void) {
     glNewList(TACA, GL_COMPILE);
 
-    glColor3f(0.7, 0.7, 0.7);  // Branco transparente
-    glRotatef(71, 1, 0, 0);
-    glRotatef(55, 0, 0, 1);
-    glTranslatef(-1, 0, 0);
+    glColor3f(0.7, 0.7, 0.7);  // Cinza clarinho
 
     // Bojo
     GLUquadricObj *bojo = gluNewQuadric();
