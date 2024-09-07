@@ -1,10 +1,10 @@
 # Projeto: Construção de Cena
 
 ```c
-#define AUTORES ["Gabriel de Paula", "Guilherme Francis"]
+#define AUTORES ["Gabriel de Paula"]
 #define DISCIPLINA "Computação Gráfica"
 #define PROFESSOR "Jesuliana Ulysses"
-#define ETAPA 1
+#define ETAPA 2
 ```
 
 &nbsp;
@@ -27,4 +27,4 @@ Execute o arquivo final:
 
 ## 🖼 Prévia
 
-![cena](./docs/print.png)
+![cena2](./docs/print2.png)
