@@ -27,17 +27,41 @@ void init(void) {
 }
 
 void light(void) {
-    GLfloat luzAmbiente[4] = {0.5, 0.5, 0.5, 1};
-    GLfloat luzDifusa[4] = {0.4, 0.4, 0.4, 1};
-    GLfloat luzEspecular[4] = {1, 1, 1, 1};
-    GLfloat posicaoLuz[4] = {0, 12, 0, 0.5};
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);  // Luz spot para iluminar toda a cena de cima
+    glEnable(GL_LIGHT1);  // Luz pontual vermelha um pouco acima da mesa, de baixa distancia de alcance
 
-    // Inicia todas as propriedades de luz
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
+    // Propriedades luz spot
+    GLfloat luzAmbienteSpot[4] = {0.5f, 0.5f, 0.5f, 1};
+    GLfloat luzDifusaSpot[4] = {0.4f, 0.4f, 0.4f, 1};
+    GLfloat luzEspecularSpot[4] = {1, 1, 1, 1};
+    GLfloat posicaoLuzSpot[4] = {0, 12, 0, 1};
+    GLfloat direcaoSpot[4] = {0, -1, 0};
+    GLfloat aberturaSpot = 45.0f;
+
+    // Inicia todas as propriedades da luz spot
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbienteSpot);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbienteSpot);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusaSpot);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecularSpot);
+    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuzSpot);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, direcaoSpot);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, aberturaSpot);
+
+    // Propriedades luz pontual
+    GLfloat posicaoLuzPontual[4] = {0, 4, 0, 1};
+    GLfloat luzAmbientePontual[4] = {0.5f, 0.5f, 0.5f, 1};
+    GLfloat luzDifusaPontual[4] = {1.0f, 0.4f, 0.4f, 1.0f};
+    GLfloat luzEspecularPontual[4] = {1, 1, 1, 1};
+
+    // Inicia todas as propriedades da luz pontual
+    glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuzPontual);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbientePontual);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusaPontual);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecularPontual);
+    glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 2);
+    glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0.1f);
+    glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.05f);
 }
 
 void display(void) {
@@ -47,8 +71,6 @@ void display(void) {
     glEnable(GL_COLOR_MATERIAL);
 
     // Iluminacao
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     light();
 
     // Profundidade
